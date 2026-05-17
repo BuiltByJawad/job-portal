@@ -1,0 +1,10 @@
+﻿<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Recruiter Dashboard</title></head>
+<body>
+    <h2>Recruiter Dashboard</h2>
+    <p>Welcome, <?php echo htmlspecialchars($user['name']); ?>.</p>
+    <p>Role 3 implementation in progress.</p>
+    <p><a href="index.php?route=auth/logout">Logout</a></p>
+</body>
+</html>
