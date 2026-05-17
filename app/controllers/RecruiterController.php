@@ -3,6 +3,8 @@ require_once __DIR__ . '/../models/Auth.php';
 require_once __DIR__ . '/../models/RecruiterClient.php';
 require_once __DIR__ . '/../models/Category.php';
 require_once __DIR__ . '/../models/Job.php';
+require_once __DIR__ . '/../models/Seeker.php';
+require_once __DIR__ . '/../models/RecruiterOutreach.php';
 
 class RecruiterController
 {
@@ -84,7 +86,6 @@ class RecruiterController
             return;
         }
 
-        // Standalone clients do not have employer account yet; temporarily map to recruiter's user id to satisfy FK.
         $employerId = $selectedClient['employer_id'] ? (int)$selectedClient['employer_id'] : (int)$user['id'];
 
         $jobModel = new Job();
@@ -128,5 +129,63 @@ class RecruiterController
         $clients = $clientModel->allByRecruiter((int)$user['id']);
 
         include __DIR__ . '/../views/recruiter/jobs.php';
+    }
+
+    public function seekerSearchPage(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+        $jobModel = new Job();
+        $jobs = $jobModel->allByRecruiter((int)$user['id']);
+        include __DIR__ . '/../views/recruiter/seeker_search.php';
+    }
+
+    public function seekerSearchApi(): void
+    {
+        Auth::requireRole('recruiter');
+        header('Content-Type: application/json');
+
+        $filters = [
+            'keyword' => trim($_GET['keyword'] ?? ''),
+            'location' => trim($_GET['location'] ?? ''),
+            'min_experience' => $_GET['min_experience'] ?? '',
+            'max_expected_salary' => $_GET['max_expected_salary'] ?? ''
+        ];
+
+        $seekerModel = new Seeker();
+        $results = $seekerModel->search($filters);
+
+        echo json_encode(['success' => true, 'data' => $results]);
+        exit;
+    }
+
+    public function sendOutreach(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+
+        $seekerId = (int)($_POST['seeker_id'] ?? 0);
+        $jobId = (int)($_POST['job_id'] ?? 0);
+        $message = trim($_POST['message'] ?? '');
+
+        if ($seekerId <= 0 || $jobId <= 0 || $message === '') {
+            header('Location: index.php?route=recruiter/seekers&error=invalid_outreach');
+            exit;
+        }
+
+        $outreachModel = new RecruiterOutreach();
+        $outreachModel->create((int)$user['id'], $seekerId, $jobId, $message);
+
+        header('Location: index.php?route=recruiter/seekers&success=outreach_sent');
+        exit;
+    }
+
+    public function outreachList(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+        $outreachModel = new RecruiterOutreach();
+        $messages = $outreachModel->allByRecruiter((int)$user['id']);
+        include __DIR__ . '/../views/recruiter/outreach_list.php';
     }
 }
