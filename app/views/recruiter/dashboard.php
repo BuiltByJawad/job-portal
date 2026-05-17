@@ -14,6 +14,7 @@
         <li><a href="index.php?route=recruiter/pipeline">Unified Candidate Pipeline</a></li>
         <li><a href="index.php?route=recruiter/placements">Placement History</a></li>
         <li><a href="index.php?route=recruiter/analytics">Recruiter Analytics & Client Report</a></li>
+        <li><a href="index.php?route=recruiter/complaints">Submit Complaint to Admin</a></li>
     </ul>
     <p><a href="index.php?route=auth/logout">Logout</a></p>
 </body>
