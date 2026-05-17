@@ -11,3 +11,6 @@
 - Recruiter registration/login with admin verification check
 - Recruiter dashboard route guard
 - Shared schema for all roles
+
+- Step 2: recruiter client management + recruiter job posting + job filters
+

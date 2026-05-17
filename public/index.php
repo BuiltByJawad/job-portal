@@ -34,6 +34,26 @@ switch ($route) {
         $recruiterController->dashboard();
         break;
 
+    case 'recruiter/clients':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $recruiterController->addClient();
+        } else {
+            $recruiterController->clients();
+        }
+        break;
+
+    case 'recruiter/jobs/create':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $recruiterController->createJob();
+        } else {
+            $recruiterController->showCreateJob();
+        }
+        break;
+
+    case 'recruiter/jobs':
+        $recruiterController->jobs();
+        break;
+
     default:
         include __DIR__ . '/../app/views/shared/home.php';
         break;
