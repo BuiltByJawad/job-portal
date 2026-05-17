@@ -14,3 +14,5 @@
 
 - Step 2: recruiter client management + recruiter job posting + job filters
 
+- Step 3: AJAX seeker search + recruiter outreach messaging and status list
+

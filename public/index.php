@@ -54,6 +54,24 @@ switch ($route) {
         $recruiterController->jobs();
         break;
 
+    case 'recruiter/seekers':
+        $recruiterController->seekerSearchPage();
+        break;
+
+    case 'api/recruiter/seekers':
+        $recruiterController->seekerSearchApi();
+        break;
+
+    case 'recruiter/outreach/send':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $recruiterController->sendOutreach();
+        }
+        break;
+
+    case 'recruiter/outreach':
+        $recruiterController->outreachList();
+        break;
+
     default:
         include __DIR__ . '/../app/views/shared/home.php';
         break;
