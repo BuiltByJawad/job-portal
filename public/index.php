@@ -17,7 +17,6 @@ switch ($route) {
             $authController->showRegister();
         }
         break;
-
     case 'auth/login':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $authController->login();
@@ -25,15 +24,12 @@ switch ($route) {
             $authController->showLogin();
         }
         break;
-
     case 'auth/logout':
         $authController->logout();
         break;
-
     case 'recruiter/dashboard':
         $recruiterController->dashboard();
         break;
-
     case 'recruiter/clients':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $recruiterController->addClient();
@@ -41,7 +37,6 @@ switch ($route) {
             $recruiterController->clients();
         }
         break;
-
     case 'recruiter/jobs/create':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $recruiterController->createJob();
@@ -49,29 +44,40 @@ switch ($route) {
             $recruiterController->showCreateJob();
         }
         break;
-
     case 'recruiter/jobs':
         $recruiterController->jobs();
         break;
-
     case 'recruiter/seekers':
         $recruiterController->seekerSearchPage();
         break;
-
     case 'api/recruiter/seekers':
         $recruiterController->seekerSearchApi();
         break;
-
     case 'recruiter/outreach/send':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $recruiterController->sendOutreach();
         }
         break;
-
     case 'recruiter/outreach':
         $recruiterController->outreachList();
         break;
-
+    case 'recruiter/applications':
+        $recruiterController->applications();
+        break;
+    case 'recruiter/applications/status':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $recruiterController->updateApplicationStatus();
+        }
+        break;
+    case 'recruiter/pipeline':
+        $recruiterController->pipeline();
+        break;
+    case 'recruiter/placements':
+        $recruiterController->placements();
+        break;
+    case 'recruiter/analytics':
+        $recruiterController->analytics();
+        break;
     default:
         include __DIR__ . '/../app/views/shared/home.php';
         break;

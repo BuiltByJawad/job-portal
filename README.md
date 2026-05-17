@@ -16,3 +16,5 @@
 
 - Step 3: AJAX seeker search + recruiter outreach messaging and status list
 
+- Step 4: recruiter applications pipeline, status updates, placements, analytics, and client report
+

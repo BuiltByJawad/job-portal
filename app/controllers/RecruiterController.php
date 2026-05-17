@@ -5,6 +5,8 @@ require_once __DIR__ . '/../models/Category.php';
 require_once __DIR__ . '/../models/Job.php';
 require_once __DIR__ . '/../models/Seeker.php';
 require_once __DIR__ . '/../models/RecruiterOutreach.php';
+require_once __DIR__ . '/../models/Application.php';
+require_once __DIR__ . '/../models/RecruiterAnalytics.php';
 
 class RecruiterController
 {
@@ -187,5 +189,78 @@ class RecruiterController
         $outreachModel = new RecruiterOutreach();
         $messages = $outreachModel->allByRecruiter((int)$user['id']);
         include __DIR__ . '/../views/recruiter/outreach_list.php';
+    }
+
+    public function applications(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+        $jobModel = new Job();
+        $applicationModel = new Application();
+
+        $filters = [
+            'job_id' => $_GET['job_id'] ?? '',
+            'status' => $_GET['status'] ?? ''
+        ];
+
+        $jobs = $jobModel->allByRecruiter((int)$user['id']);
+        $applications = $applicationModel->allForRecruiter((int)$user['id'], $filters);
+        include __DIR__ . '/../views/recruiter/applications.php';
+    }
+
+    public function updateApplicationStatus(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+
+        $applicationId = (int)($_POST['application_id'] ?? 0);
+        $status = trim($_POST['status'] ?? '');
+        $allowed = ['submitted', 'reviewed', 'shortlisted', 'interview', 'rejected', 'withdrawn', 'hired'];
+
+        if ($applicationId <= 0 || !in_array($status, $allowed, true)) {
+            header('Location: index.php?route=recruiter/applications&error=invalid_status');
+            exit;
+        }
+
+        $applicationModel = new Application();
+        $applicationModel->updateStatus($applicationId, (int)$user['id'], $status);
+
+        header('Location: index.php?route=recruiter/applications&success=status_updated');
+        exit;
+    }
+
+    public function pipeline(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+        $applicationModel = new Application();
+        $summary = $applicationModel->pipelineSummary((int)$user['id']);
+        include __DIR__ . '/../views/recruiter/pipeline.php';
+    }
+
+    public function placements(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+        $applicationModel = new Application();
+        $placements = $applicationModel->placementHistory((int)$user['id']);
+        include __DIR__ . '/../views/recruiter/placements.php';
+    }
+
+    public function analytics(): void
+    {
+        Auth::requireRole('recruiter');
+        $user = Auth::user();
+
+        $analyticsModel = new RecruiterAnalytics();
+        $clientModel = new RecruiterClient();
+
+        $summary = $analyticsModel->summary((int)$user['id']);
+        $clients = $clientModel->allByRecruiter((int)$user['id']);
+
+        $selectedEmployerId = !empty($_GET['employer_id']) ? (int)$_GET['employer_id'] : null;
+        $clientReport = $analyticsModel->byClient((int)$user['id'], $selectedEmployerId);
+
+        include __DIR__ . '/../views/recruiter/analytics.php';
     }
 }

@@ -10,6 +10,10 @@
         <li><a href="index.php?route=recruiter/jobs">View All Client Jobs</a></li>
         <li><a href="index.php?route=recruiter/seekers">Search Seekers (AJAX)</a></li>
         <li><a href="index.php?route=recruiter/outreach">Outreach Messages</a></li>
+        <li><a href="index.php?route=recruiter/applications">Client Job Applications</a></li>
+        <li><a href="index.php?route=recruiter/pipeline">Unified Candidate Pipeline</a></li>
+        <li><a href="index.php?route=recruiter/placements">Placement History</a></li>
+        <li><a href="index.php?route=recruiter/analytics">Recruiter Analytics & Client Report</a></li>
     </ul>
     <p><a href="index.php?route=auth/logout">Logout</a></p>
 </body>
