@@ -1,14 +1,1 @@
-﻿<!doctype html>
-<html lang="en">
-<head><meta charset="UTF-8"><title>Pipeline</title></head>
-<body>
-<h2>Unified Candidate Pipeline</h2>
-<ul>
-    <li>Submitted: <?php echo (int)$summary['submitted']; ?></li>
-    <li>Reviewed: <?php echo (int)$summary['reviewed']; ?></li>
-    <li>Shortlisted: <?php echo (int)$summary['shortlisted']; ?></li>
-    <li>Interview: <?php echo (int)$summary['interview']; ?></li>
-</ul>
-<p><a href="index.php?route=recruiter/dashboard">Back</a></p>
-</body>
-</html>
+﻿<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Pipeline</title><link rel="stylesheet" href="/project/public/assets/css/style.css"></head><body><div class="container"><h2>Unified Candidate Pipeline</h2><div class="table-wrap"><table><tr><th>Stage</th><th>Total Candidates</th></tr><tr><td>Submitted</td><td><?php echo (int)$summary['submitted']; ?></td></tr><tr><td>Reviewed</td><td><?php echo (int)$summary['reviewed']; ?></td></tr><tr><td>Shortlisted</td><td><?php echo (int)$summary['shortlisted']; ?></td></tr><tr><td>Interview</td><td><?php echo (int)$summary['interview']; ?></td></tr></table></div><div class="actions"><a class="btn btn-secondary" href="index.php?route=recruiter/dashboard">Back</a></div></div></body></html>
